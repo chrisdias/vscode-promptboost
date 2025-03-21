@@ -26,7 +26,7 @@ export class promptBoostTool implements vscode.LanguageModelTool<IPromptBoostPar
 
 		console.log(options.input.promptText);
 		return {
-			invocationMessage: `Boosting your prompt to be a 10x developer like Simon Calvert`
+			invocationMessage: `Boosting your prompt...`
 		};
 	}
 }

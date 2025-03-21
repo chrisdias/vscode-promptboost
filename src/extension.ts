@@ -4,6 +4,7 @@ import { promptBoost} from './promptBoost';
 
 
 export function activate(context: vscode.ExtensionContext) {
+    console.log("'promptBoost' is now active");
     registerAgentTools(context);
 
     const command = vscode.commands.registerTextEditorCommand(

@@ -9,8 +9,6 @@ async function promptBoost(promptText: string): Promise<any> {
     });
     let chatResponse: vscode.LanguageModelChatResponse | undefined;
 
-
-
     const messages = [
         vscode.LanguageModelChatMessage.User(`
             You are an AI assistant that enhances an underspecified prompt into a fully fleshed-out prompt.
@@ -34,8 +32,7 @@ async function promptBoost(promptText: string): Promise<any> {
         vscode.LanguageModelChatMessage.User(promptText)
     ];
 
-    console.log("in promptBoost");
-
+    console.log("boosting the prompt...");
 
     try {
         chatResponse = await model.sendRequest(
@@ -44,17 +41,13 @@ async function promptBoost(promptText: string): Promise<any> {
             new vscode.CancellationTokenSource().token
         );
     } catch (err) {
-        if (err instanceof vscode.LanguageModelError) {
-            console.log(err.message, err.code, err.cause);
-        } else {
-            throw err;
-        }
-        return;
+        console.log(err);
+        return promptText;
     }
 
-    let newPrompt = '';
 
     try {
+        let newPrompt = '';
         for await (const fragment of chatResponse.text) {
             newPrompt += fragment;
         }
@@ -63,13 +56,10 @@ async function promptBoost(promptText: string): Promise<any> {
     } catch (err) {
         // async response stream may fail, e.g network interruption or server side error
         console.log(err);
-        return;
+        return promptText;
     }
 
 }
-
-
-
 
 export { promptBoost };
 
