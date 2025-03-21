@@ -1,0 +1,98 @@
+{
+	"name": "promptboost",
+	"publisher": "chrisdias",
+	"displayName": "Prompt Boost",
+	"description": "Tools for enhancing prompt interactions.",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/chrisdias/promptboost"
+	},
+	"license": "MIT",
+	"version": "0.1.0",
+	"engines": {
+		"vscode": "^1.99.0",
+		"node": "^v23.0.0"
+	},
+	"categories": [
+		"AI",
+		"Chat"
+	],
+	"enabledApiProposals": [
+		"languageModelToolsForAgent"
+	],
+	"activationEvents": [
+		"onLanguage:markdown"
+	],
+	"contributes": {
+		"commands": [
+			{
+				"command": "promptBoost.boost",
+				"title": "Boost Prompt",
+				"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/"
+			}
+		],
+		"menus": {
+			"editor/context": [
+				{
+					"command": "promptBoost.boost",
+					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"group": "1_modification"
+				}
+			],
+			"editor/title": [
+				{
+					"command": "promptBoost.boost",
+					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"group": "navigation"
+				}
+			]
+		},
+		"languageModelTools": [
+			{
+				"name": "promptboost",
+				"tags": [
+					"prompt",
+					"editing",
+					"tools",
+					"vscode_editing"
+				],
+				"displayName": "Prompt Boost Tools",
+				"modelDescription": "Run the Prompt Boost tools to improve your prompts!",
+				"inputSchema": {
+					"type": "object",
+					"properties": {
+						"promptText": {
+							"type": "string",
+							"description": "The prompt text to improve"
+						}
+					},
+					"required": [
+						"promptText"
+					]
+				}
+			}
+		]
+	},
+	"main": "./out/extension.js",
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint",
+		"watch": "tsc -watch -p ./"
+	},
+	"dependencies": {
+		"@vscode/chat-extension-utils": "^0.0.0-alpha.1",
+		"@vscode/prompt-tsx": "^0.3.0-alpha.12",
+		"sharp": "^0.33.5",
+		"dotenv": "^16.4.7"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^20.0.0",
+		"@types/vscode": "^1.95.0",
+		"eslint": "^9.13.0",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.0"
+	}
+}
