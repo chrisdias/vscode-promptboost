@@ -81,9 +81,7 @@
 	},
 	"dependencies": {
 		"@vscode/chat-extension-utils": "^0.0.0-alpha.1",
-		"@vscode/prompt-tsx": "^0.3.0-alpha.12",
-		"sharp": "^0.33.5",
-		"dotenv": "^16.4.7"
+		"@vscode/prompt-tsx": "^0.3.0-alpha.12"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.13.0",
