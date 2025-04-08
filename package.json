@@ -17,9 +17,6 @@
 		"AI",
 		"Chat"
 	],
-	"enabledApiProposals": [
-		"languageModelToolsForAgent"
-	],
 	"activationEvents": [
 		"onLanguage:markdown"
 	],
@@ -49,15 +46,16 @@
 		},
 		"languageModelTools": [
 			{
-				"name": "promptboost",
+				"name": "promptBoost",
 				"tags": [
 					"prompt",
 					"editing",
-					"tools",
-					"vscode_editing"
+					"tools"
 				],
+				"toolReferenceName": "promptBoost",
 				"displayName": "Prompt Boost Tools",
-				"modelDescription": "Run the Prompt Boost tools to improve your prompts!",
+				"modelDescription": "Boost the quality of your prompts",
+				"canBeReferencedInPrompt": true,
 				"inputSchema": {
 					"type": "object",
 					"properties": {

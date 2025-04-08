@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { registerAgentTools } from './tools';
 import { promptBoost} from './promptBoost';
 
 
@@ -42,6 +41,35 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     context.subscriptions.push(command);
+}
+
+
+export function registerAgentTools(context: vscode.ExtensionContext) {
+    context.subscriptions.push(vscode.lm.registerTool('promptBoost', new promptBoostTool()));
+}
+
+interface IPromptBoostParameters {
+    promptText: string;
+}
+
+export class promptBoostTool implements vscode.LanguageModelTool<IPromptBoostParameters> {
+    async invoke(
+        options: vscode.LanguageModelToolInvocationOptions<IPromptBoostParameters>,
+        _token: vscode.CancellationToken
+    ) {
+        const params = options.input as IPromptBoostParameters;
+        const result = await promptBoost(params.promptText);
+        return new vscode.LanguageModelToolResult([new vscode.LanguageModelTextPart(result)]);
+    }
+
+    async prepareInvocation(
+        _options: vscode.LanguageModelToolInvocationPrepareOptions<IPromptBoostParameters>,
+        _token: vscode.CancellationToken
+    ) {
+        return {
+            invocationMessage: `Boosting your prompt...`
+        };
+    }
 }
 
 export function deactivate() { }

@@ -1,7 +1,3 @@
 out
-dist
 node_modules
-.vscode-test/
 *.vsix
-cua_logs
-.env
