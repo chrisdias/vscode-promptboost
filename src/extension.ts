@@ -3,7 +3,13 @@ import { promptBoost} from './promptBoost';
 
 
 export function activate(context: vscode.ExtensionContext) {
-    console.log("'promptBoost' is now active");
+    
+    const regex = /Visual Studio Code/;
+    if (!regex.test(vscode.env.appName)) {
+        vscode.window.showErrorMessage("This extension can only be used with Visual Studio Code. Using it in any other product could cause unexpected behavior, performance, or security issues.", { modal: true });
+        return;
+    }
+    
     registerAgentTools(context);
 
     const command = vscode.commands.registerTextEditorCommand(

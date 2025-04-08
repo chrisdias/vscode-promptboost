@@ -2,8 +2,7 @@
 
 Transform simple prompts into powerful, context-rich instructions that help GitHub Copilot understand exactly what you need. This extension enhances your prompts by adding relevant technical context, best practices, and specific requirements that lead to better, more accurate responses.
 
-![Prompt Boost in action](resources/boostFile.png)
-[Image placeholder: Screenshot showing a simple prompt being transformed into a detailed one]
+![Prompt Boost in action showing how the extension transforms a basic prompt into a detailed, context-rich instruction set](resources/boostFile.png)
 
 ## Why Prompt Boost?
 
@@ -22,8 +21,8 @@ Transform simple prompts into powerful, context-rich instructions that help GitH
    - Right-click and select "Boost Prompt"
    - Use the editor menu and select "Boost Prompt"
 
-![Prompt Boost context menu](resources/boostContextMenu.png)
-[Image placeholder: Screenshot showing the context menu with Boost Prompt option]
+![Prompt Boost in the context menu](resources/boostContextMenu.png)
+
 
 ### Method 2: VS Code Chat
 
@@ -33,7 +32,7 @@ Transform simple prompts into powerful, context-rich instructions that help GitH
 4. Use the enhanced prompt for better results
 
 ![Prompt Boost in Chat](resources/boostChat.png)
-[Image placeholder: Screenshot showing Prompt Boost being used in VS Code Chat]
+
 
 ## Examples
 
@@ -70,8 +69,8 @@ npm -v
 ### Get the Source
 
 ``` bash
-git clone https://github.com/chrisdias/vscode-prompt-boost.git
-cd vscode-prompt-boost
+git clone https://github.com/chrisdias/vscode-promptboost.git
+cd vscode-promptboost
 ```
 
 ### Install dependencies, open VS Code, and run the extension
@@ -93,3 +92,5 @@ _"I want to create a new "ToDo" web app in node. First, boost this prompt with t
 - https://code.visualstudio.com/api/extension-guides/chat
 - https://code.visualstudio.com/api/extension-guides/language-model
 
+## License
+[MIT](LICENSE)

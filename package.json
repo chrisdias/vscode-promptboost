@@ -5,11 +5,11 @@
 	"description": "Tools for enhancing prompt interactions.",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/chrisdias/promptboost"
+		"url": "https://github.com/chrisdias/vscode-promptboost"
 	},
 	"icon": "resources/icon.png",
 	"license": "MIT",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"engines": {
 		"vscode": "^1.99.0",
 		"node": "^v23.0.0"
