@@ -9,7 +9,7 @@
 	},
 	"icon": "resources/icon.png",
 	"license": "MIT",
-	"version": "0.3.0",
+	"version": "0.4.0",
 	"engines": {
 		"vscode": "^1.99.0",
 		"node": "^v23.0.0"
@@ -19,28 +19,28 @@
 		"Chat"
 	],
 	"activationEvents": [
-		"onLanguage:markdown"
+		"onStartupFinished"
 	],
 	"contributes": {
 		"commands": [
 			{
 				"command": "promptBoost.boost",
 				"title": "Boost Prompt",
-				"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/"
+				"when": "promptBoost.isEligibleFile"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
 					"command": "promptBoost.boost",
-					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"when": "promptBoost.isEligibleFile",
 					"group": "1_modification"
 				}
 			],
 			"editor/title": [
 				{
 					"command": "promptBoost.boost",
-					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"when": "promptBoost.isEligibleFile",
 					"group": "navigation"
 				}
 			]
