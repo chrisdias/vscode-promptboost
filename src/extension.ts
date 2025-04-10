@@ -3,40 +3,42 @@ import { promptBoost } from './promptBoost';
 
 
 // Get custom instruction files from settings
-function getCustomInstructionFiles(): string[] {
-    const config = vscode.workspace.getConfiguration('github.copilot.chat');
-    const settingKeys = [
-        'reviewSelection.instructions',
-        'codeGeneration.instructions',
-        'commitMessageGeneration.instructions',
-        'pullRequestDescriptionGeneration.instructions',
-        'testGeneration.instructions'
-    ];
+// function getCustomInstructionFiles(): string[] {
+//     const config = vscode.workspace.getConfiguration('github.copilot.chat');
+//     const settingKeys = [
+//         'reviewSelection.instructions',
+//         'codeGeneration.instructions',
+//         'commitMessageGeneration.instructions',
+//         'pullRequestDescriptionGeneration.instructions',
+//         'testGeneration.instructions'
+//     ];
 
-    const files: string[] = [];
-    for (const key of settingKeys) {
-        const instructions = config.get<Array<{ file: string }>>(key);
-        if (instructions && Array.isArray(instructions)) {
-            instructions.forEach(instruction => {
-                if (instruction.file) {
-                    files.push(instruction.file);
-                }
-            });
-        }
-    }
-    return files;
-}
+//     const files: string[] = [];
+//     for (const key of settingKeys) {
+//         const instructions = config.get<Array<{ file: string }>>(key);
+//         if (instructions && Array.isArray(instructions)) {
+//             instructions.forEach(instruction => {
+//                 if (instruction.file) {
+//                     files.push(instruction.file);
+//                 }
+//             });
+//         }
+//     }
+//     return files;
+// }
 
 // Add this function to check file eligibility
-function isEligibleFile(fileName: string): boolean {
-    // Get custom instruction files
-    const customFiles = getCustomInstructionFiles();
+// function isEligibleFile(fileName: string): boolean {
+//     // Get custom instruction files
+//     // const customFiles = getCustomInstructionFiles();
+    
 
-    // Check if the file matches any of our criteria
-    return fileName.endsWith('.prompt.md') ||
-        fileName.includes('copilot-instructions.md') ||
-        customFiles.some(file => fileName.includes(file));
-}
+//     // Check if the file matches any of our criteria
+//     return fileName.endsWith('.prompt.md'); 
+    
+//     //     fileName.includes('copilot-instructions.md') ||
+//     //     customFiles.some(file => fileName.includes(file));
+// }
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -47,25 +49,25 @@ export function activate(context: vscode.ExtensionContext) {
     }
 
     // Initial check for active editor and eligibility
-    const activeEditor = vscode.window.activeTextEditor;
-    if (activeEditor) {
-        const isEligible = isEligibleFile(activeEditor.document.fileName);
-        vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
-    } else {
-        vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
-    }
+    // const activeEditor = vscode.window.activeTextEditor;
+    // if (activeEditor) {
+    //     const isEligible = isEligibleFile(activeEditor.document.fileName);
+    //     vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
+    // } else {
+    //     vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
+    // }
     
-    // Register an event listener for active editor changes
-    context.subscriptions.push(
-        vscode.window.onDidChangeActiveTextEditor(editor => {
-            if (editor) {
-                const isEligible = isEligibleFile(editor.document.fileName);
-                vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
-            } else {
-                vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
-            }
-        })
-    );
+    // // Register an event listener for active editor changes
+    // context.subscriptions.push(
+    //     vscode.window.onDidChangeActiveTextEditor(editor => {
+    //         if (editor) {
+    //             const isEligible = isEligibleFile(editor.document.fileName);
+    //             vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
+    //         } else {
+    //             vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
+    //         }
+    //     })
+    // );
 
 
     registerAgentTools(context);
@@ -73,9 +75,10 @@ export function activate(context: vscode.ExtensionContext) {
     const command = vscode.commands.registerTextEditorCommand(
         'promptBoost.boost',
         async (textEditor: vscode.TextEditor) => {
-            // Only process .prompt.md and custom-instructions.md files
-            if (!textEditor.document.fileName.endsWith('.prompt.md') && !textEditor.document.fileName.endsWith('custom-instructions.md')) {
-                vscode.window.showErrorMessage('This command only works on .prompt.md and custom-instructions.md files');
+            
+            // Only process .prompt.md files
+            if (!textEditor.document.fileName.endsWith('.prompt.md')) {
+                vscode.window.showErrorMessage('This command only works on .prompt.md files');
                 return;
             }
 

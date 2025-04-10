@@ -9,7 +9,7 @@
 	},
 	"icon": "resources/icon.png",
 	"license": "MIT",
-	"version": "0.6.1",
+	"version": "0.7.0",
 	"engines": {
 		"vscode": "^1.99.0",
 		"node": "^v23.0.0"
@@ -26,21 +26,21 @@
 			{
 				"command": "promptBoost.boost",
 				"title": "Boost Prompt",
-				"when": "promptBoost.isEligibleFile"
+				"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
 					"command": "promptBoost.boost",
-					"when": "promptBoost.isEligibleFile",
+					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
 					"group": "1_modification"
 				}
 			],
 			"editor/title": [
 				{
 					"command": "promptBoost.boost",
-					"when": "promptBoost.isEligibleFile",
+					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
 					"group": "navigation"
 				}
 			]

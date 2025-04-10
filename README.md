@@ -15,23 +15,13 @@ Transform simple prompts into powerful, context-rich instructions that help GitH
 
 ### Method 1: Editing Prompt and Custom Instruction Files
 
-1. Create or open a `.github\.prompt.md` file
+1. Create or open a `.prompt.md` file in the `.github/prompts` folder
 2. Write your basic prompt
 3. Either:
    - Right-click and select "Boost Prompt"
    - Use the editor menu and click "Boost Prompt"
 
 ![Prompt Boost in the context menu](resources/boostContextMenu.png)
-
-Prompt Boost commands are available on `*.prompt.md` and `copilot-instructions.md` files. They are also available on `file` references for the `github.copilot.chat` instructions settings:
-
-- `github.copilot.chat.reviewSelection.instructions`
-- `github.copilot.chat.codeGeneration.instructions`
-- `github.copilot.chat.commitMessageGeneration.instructions`
-- `github.copilot.chat.pullRequestDescriptionGeneration.instructions`
-- `github.copilot.chat.testGeneration.instructions`
-
-See https://code.visualstudio.com/docs/copilot/copilot-customization for more information on custom instructions for Copilot.
 
 ### Method 2: VS Code Chat
 
