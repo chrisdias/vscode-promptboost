@@ -34,7 +34,7 @@ function isEligibleFile(fileName: string): boolean {
 
     // Check if the file matches any of our criteria
     return fileName.endsWith('.prompt.md') ||
-        fileName.includes('custom-instructions.md') ||
+        fileName.includes('copilot-instructions.md') ||
         customFiles.some(file => fileName.includes(file));
 }
 
