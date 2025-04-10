@@ -23,7 +23,7 @@ Transform simple prompts into powerful, context-rich instructions that help GitH
 
 ![Prompt Boost in the context menu](resources/boostContextMenu.png)
 
-Prompt Boost commands are available on `*.prompt.md` and `custom-instructions.md` files. They are also available on `file` references for the `github.copilot.chat` instructions settings:
+Prompt Boost commands are available on `*.prompt.md` and `copilot-instructions.md` files. They are also available on `file` references for the `github.copilot.chat` instructions settings:
 
 - `github.copilot.chat.reviewSelection.instructions`
 - `github.copilot.chat.codeGeneration.instructions`
