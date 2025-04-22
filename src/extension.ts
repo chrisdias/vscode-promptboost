@@ -1,44 +1,8 @@
 import * as vscode from 'vscode';
 import { promptBoost } from './promptBoost';
 
-
-// Get custom instruction files from settings
-// function getCustomInstructionFiles(): string[] {
-//     const config = vscode.workspace.getConfiguration('github.copilot.chat');
-//     const settingKeys = [
-//         'reviewSelection.instructions',
-//         'codeGeneration.instructions',
-//         'commitMessageGeneration.instructions',
-//         'pullRequestDescriptionGeneration.instructions',
-//         'testGeneration.instructions'
-//     ];
-
-//     const files: string[] = [];
-//     for (const key of settingKeys) {
-//         const instructions = config.get<Array<{ file: string }>>(key);
-//         if (instructions && Array.isArray(instructions)) {
-//             instructions.forEach(instruction => {
-//                 if (instruction.file) {
-//                     files.push(instruction.file);
-//                 }
-//             });
-//         }
-//     }
-//     return files;
-// }
-
-// Add this function to check file eligibility
-// function isEligibleFile(fileName: string): boolean {
-//     // Get custom instruction files
-//     // const customFiles = getCustomInstructionFiles();
-    
-
-//     // Check if the file matches any of our criteria
-//     return fileName.endsWith('.prompt.md'); 
-    
-//     //     fileName.includes('copilot-instructions.md') ||
-//     //     customFiles.some(file => fileName.includes(file));
-// }
+// Create and export the output channel here
+export const promptBoostOutputChannel = vscode.window.createOutputChannel('PromptBoost');
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -48,34 +12,12 @@ export function activate(context: vscode.ExtensionContext) {
         return;
     }
 
-    // Initial check for active editor and eligibility
-    // const activeEditor = vscode.window.activeTextEditor;
-    // if (activeEditor) {
-    //     const isEligible = isEligibleFile(activeEditor.document.fileName);
-    //     vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
-    // } else {
-    //     vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
-    // }
-    
-    // // Register an event listener for active editor changes
-    // context.subscriptions.push(
-    //     vscode.window.onDidChangeActiveTextEditor(editor => {
-    //         if (editor) {
-    //             const isEligible = isEligibleFile(editor.document.fileName);
-    //             vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', isEligible);
-    //         } else {
-    //             vscode.commands.executeCommand('setContext', 'promptBoost.isEligibleFile', false);
-    //         }
-    //     })
-    // );
-
-
     registerAgentTools(context);
 
     const command = vscode.commands.registerTextEditorCommand(
         'promptBoost.boost',
         async (textEditor: vscode.TextEditor) => {
-            
+
             // Only process .prompt.md files
             if (!textEditor.document.fileName.endsWith('.prompt.md')) {
                 vscode.window.showErrorMessage('This command only works on .prompt.md files');
@@ -85,16 +27,27 @@ export function activate(context: vscode.ExtensionContext) {
             await vscode.window.withProgress({
                 location: vscode.ProgressLocation.Notification,
                 title: "Boosting prompt... ",
-                cancellable: false
-            }, async () => {
+                cancellable: true
+            }, async (progress, token) => {
                 // Get selected text or full document
                 const selection = textEditor.selection;
                 const promptText = selection.isEmpty
                     ? textEditor.document.getText()
                     : textEditor.document.getText(selection);
 
+                // Handle cancellation
+                if (token.isCancellationRequested) {
+                    promptBoostOutputChannel.appendLine('Prompt boost cancelled by user.');
+                    return;
+                }
+
                 const enhancedPrompt = await promptBoost(promptText);
-                
+
+                if (token.isCancellationRequested) {
+                    promptBoostOutputChannel.appendLine('Prompt boost cancelled by user.');
+                    return;
+                }
+
                 // Replace either the selection or the whole document
                 await textEditor.edit(edit => {
                     if (selection.isEmpty) {

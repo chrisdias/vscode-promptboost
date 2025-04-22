@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import { promptBoostOutputChannel } from './extension';
 
 let currentModel: vscode.LanguageModelChat[] | undefined;
 
@@ -19,11 +20,13 @@ async function promptBoost(promptText: string): Promise<string> {
     }
     // if still no model, simply return the original prompt
     if (!currentModel || currentModel.length === 0) {
-        console.log("No model available");
+        promptBoostOutputChannel.appendLine("No model available");
         return promptText;
     }
 
     const model = currentModel[0];
+    promptBoostOutputChannel.appendLine(`Using model: ${model.name}`);
+    
     let chatResponse: vscode.LanguageModelChatResponse | undefined;
 
     const messages = [
@@ -61,7 +64,7 @@ async function promptBoost(promptText: string): Promise<string> {
 
     ];
 
-    console.log(`boosting the prompt ${promptText} ...`);
+    promptBoostOutputChannel.appendLine(`boosting the prompt ${promptText} ...`);
 
     try {
         chatResponse = await model.sendRequest(
@@ -70,7 +73,7 @@ async function promptBoost(promptText: string): Promise<string> {
             new vscode.CancellationTokenSource().token
         );
     } catch (err) {
-        console.log(err);
+        promptBoostOutputChannel.appendLine(String(err));
         return promptText;
     }
 
@@ -83,11 +86,11 @@ async function promptBoost(promptText: string): Promise<string> {
         for await (const fragment of chatResponse.text) {
             newPrompt += fragment;
         }
-        console.log(newPrompt);
+        promptBoostOutputChannel.appendLine(newPrompt);
         return newPrompt;
     } catch (err) {
         // async response stream may fail, e.g network interruption or server side error
-        console.log(err);
+        promptBoostOutputChannel.appendLine(String(err));
         return promptText;
     }
 }

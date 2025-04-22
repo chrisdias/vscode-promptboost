@@ -26,21 +26,21 @@
 			{
 				"command": "promptBoost.boost",
 				"title": "Boost Prompt",
-				"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/"
+				"when": "resourceFilename =~ /\\.prompt\\.md$/"
 			}
 		],
 		"menus": {
 			"editor/context": [
 				{
 					"command": "promptBoost.boost",
-					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"when": "resourceFilename =~ /\\.prompt\\.md$/",
 					"group": "1_modification"
 				}
 			],
 			"editor/title": [
 				{
 					"command": "promptBoost.boost",
-					"when": "editorLangId == markdown && resourceFilename =~ /\\.prompt\\.md$/",
+					"when": "resourceFilename =~ /\\.prompt\\.md$/",
 					"group": "navigation"
 				}
 			]
