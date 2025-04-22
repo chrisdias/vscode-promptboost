@@ -1,0 +1,87 @@
+name: "Build and Publish"
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+  pull_request:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+  workflow_dispatch:
+    branches:
+      - main
+    paths-ignore:
+      - "**/*.md"
+      - "**/*.gitignore"
+      - "**/*.gitattributes"
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x" # Updated Node.js version
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install vsce
+        run: npm install -g @vscode/vsce
+
+      - name: 🏷️ NBGV
+        uses: dotnet/nbgv@master
+        id: nbgv
+        with:
+          stamp: package.json
+
+      - name: 🗣️ NBGV outputs
+        run: |
+          echo "SimpleVersion: ${{ steps.nbgv.outputs.SimpleVersion }}"
+
+      - name: Package
+        run: npm run package
+
+      - name: Extract Package Version
+        id: package_version
+        uses: Saionaro/extract-package-version@v1.2.1
+
+      - name: Publish
+        if: ${{ github.event_name == 'push' }}
+        run: npm run deploy
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ github.event.repository.name }}.vsix
+          path: |
+            **/*.vsix
+
+      - name: 🏷️ Tag and Release
+        id: tag_release
+        uses: softprops/action-gh-release@v0.1.15
+        with:
+          body: Release ${{ steps.nbgv.outputs.SimpleVersion }}
+          tag_name: ${{ steps.nbgv.outputs.SimpleVersion }}
+          generate_release_notes: true
+          files: |
+            **/*.vsix
