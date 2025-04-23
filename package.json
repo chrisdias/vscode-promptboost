@@ -7,6 +7,10 @@
 		"type": "git",
 		"url": "https://github.com/chrisdias/vscode-promptboost"
 	},
+	"qna": "https://github.com/chrisdias/vscode-promptboost/issues",
+	"author": {
+		"name": "Chris Dias"
+	},
 	"icon": "resources/icon.png",
 	"license": "MIT",
 	"version": "0.9.0",
@@ -77,11 +81,14 @@
 		"vscode:prepublish": "npm run compile",
 		"compile": "tsc -p ./",
 		"lint": "eslint",
-		"watch": "tsc -watch -p ./"
+		"watch": "tsc -watch -p ./",
+		"deploy": "vsce publish",
+    	"package": "npm run compile && vsce package"
 	},
 	"dependencies": {
 		"@vscode/chat-extension-utils": "^0.0.0-alpha.1",
-		"@vscode/prompt-tsx": "^0.3.0-alpha.12"
+		"@vscode/prompt-tsx": "^0.3.0-alpha.12",
+		"nerdbank-gitversioning": "^3.8.38-alpha"
 	},
 	"devDependencies": {
 		"@eslint/js": "^9.13.0",
