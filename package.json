@@ -11,7 +11,7 @@
 	"license": "MIT",
 	"version": "0.9.0",
 	"engines": {
-		"vscode": "^1.99.0",
+		"vscode": "^1.96.0",
 		"node": "^v23.0.0"
 	},
 	"categories": [
